@@ -8,22 +8,38 @@ printf "Update && Upgrade\n"
 apt-get update
 apt-get upgrade
 
-if ! git -v &> /dev/null
+if ! git --version &> /dev/null
 then
     printf "Install git\n"
     apt-get install git
 fi
 
-if ! zsh -v &> /dev/null
+if ! htop -v &> /dev/null
+then 
+    printf "Install htop"
+    apt-get install htop
+fi
+
+if ! zsh --version &> /dev/null
 then 
     printf "Install zsh\n"
     apt-get install zsh
+    
+    printf "default shell zsh\n"
+    chsh -s $(which zsh)
 fi
 
-if ! curl -v &> /dev/null
+if ! curl -V &> /dev/null
 then
     printf "Install curl\n"
     apt-get install curl
 fi
 
-printf "install oh-my-zsh"
+
+if [ ! -d "/root/.oh-my-zsh" ]
+then
+    printf "install oh-my-zsh"  
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+apt install python3-neovim
