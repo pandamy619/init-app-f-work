@@ -15,7 +15,6 @@ apt-get install python3.10 -y
 # install pip
 apt-get install python3-pip -y
 
-sleep 5
 if ! git --version &> /dev/null
 then
     printf "Install git\n"
