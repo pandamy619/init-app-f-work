@@ -5,9 +5,6 @@ RUN echo 'APT::Install-Suggests "0";' >> /etc/apt/apt.conf.d/00-docker
 RUN echo 'APT::Install-Recommends "0";' >> /etc/apt/apt.conf.d/00-docker
 # Preventing prompt errors during package installation
 RUN DEBIAN_FRONTEND=noninteractive
-# Run as non-root user
-# RUN useradd -ms /bin/bash apprunner
-# USER apprunner
 
 # Run as root user
 USER root
