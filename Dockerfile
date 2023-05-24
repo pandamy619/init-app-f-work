@@ -11,7 +11,9 @@ USER root
 
 WORKDIR /app
 
-COPY ./init_work.sh app/init_work.sh
-# RUN chmod +x app/init_work.sh
-# RUN ["chmod", "+x", "./init_work.sh"]
-RUN ["/bin/bash", "-c", "app/init_work.sh"]
+RUN mkdir config
+
+COPY ./init_work.sh ./config/init_work.sh
+COPY ./package.txt ./config/package.txt
+
+RUN ["/bin/bash", "-c", "./config/init_work.sh"]
