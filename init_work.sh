@@ -44,7 +44,24 @@ then
   exit 1;
 fi
 
+# filename='./config/package.txt'
+# n=1
+# while read line; do
 
+#  fields=($(printf "%s" "$line"|cut -d'=' --output-delimiter=' ' -f1-))
+#  if [ -z "${fields[1]}" ]
+#  then
+#      echo "Package No. $n package: ${fields[0]} Empty version"
+#      sleep 5
+#      apt-get install ${fields} -y
+#  else
+#      echo "Package No. $n package: ${fields[0]} version: ${fields[1]}"
+#      sleep 5
+#      apt-get install  ${fields[0]}${fields[1]} -y
+#  fi
+
+#  n=$((n+1))
+# done < $filename
 # n=1
 # while read line; do
 
