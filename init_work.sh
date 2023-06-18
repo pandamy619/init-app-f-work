@@ -19,8 +19,8 @@ printf "START INIT\n"
 
 # Check that the system is supported
 printf "Check that the system is supported\n"
-platform='unknown'
 uname_str=$(uname)
+linux_distribution='unknown'
 if [ "$uname_str" == "Linux" ];
 then
   linux_distribution=$(grep -E '^(NAME)=' /etc/os-release)
@@ -30,7 +30,6 @@ then
   else
     isNotSupported
   fi
-  sleep 5
 else
   isNotSupported
 fi
@@ -44,41 +43,26 @@ then
   exit 1;
 fi
 
-# filename='./config/package.txt'
-# n=1
-# while read line; do
+# installing dependencies
+n=1
+while read line; do
 
-#  fields=($(printf "%s" "$line"|cut -d'=' --output-delimiter=' ' -f1-))
-#  if [ -z "${fields[1]}" ]
-#  then
-#      echo "Package No. $n package: ${fields[0]} Empty version"
-#      sleep 5
-#      apt-get install ${fields} -y
-#  else
-#      echo "Package No. $n package: ${fields[0]} version: ${fields[1]}"
-#      sleep 5
-#      apt-get install  ${fields[0]}${fields[1]} -y
-#  fi
+  fields=($(printf "%s" "$line"|cut -d'=' --output-delimiter=' ' -f1-))
+  if [ ! -z "${fields[0]}" ] && [ ! -z "${fields[1]}" ];
+  then 
+    echo "Package No. $n package: ${fields[0]} version: ${fields[1]}"
+    sleep 5
+    apt-get install  ${fields[0]}${fields[1]} -y
+  elif [ -z "${fields[1]}" ];
+  then
+    echo "Package No. $n package: ${fields[0]} Empty version"
+    sleep 5
+    apt-get install ${fields} -y
+  fi
 
-#  n=$((n+1))
-# done < $filename
-# n=1
-# while read line; do
+  n=$((n+1))
+done < $filename
 
-#  fields=($(printf "%s" "$line"|cut -d'=' --output-delimiter=' ' -f1-))
-#  if [ -z "${fields[1]}" ]
-#  then
-#      echo "Package No. $n package: ${fields[0]} Empty version"
-#      sleep 5
-#      apt-get install ${fields} -y
-#  else
-#      echo "Package No. $n package: ${fields[0]} version: ${fields[1]}"
-#      sleep 5
-#      apt-get install  ${fields[0]}${fields[1]} -y
-#  fi
-#
-#  n=$((n+1))
-# done < $filename
 
 # if ! git --version &> /dev/null
 # then
