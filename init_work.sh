@@ -1,6 +1,7 @@
 #!/bin/bash
 
 now=$(date '+%Y/%m/%d %H:%M:%S')
+filename='./config/package.txt'
 
 isNotSupported() {
   echo "System is not supported"
@@ -15,7 +16,22 @@ updateUbuntu() {
   add-apt-repository ppa:deadsnakes/ppa
 }
 
-printf "START INIT\n"
+installUbuntuPackage() {
+  local package="$1"
+  local version="$2"
+  if [ ! -z "${package}" ] && [ ! -z "${version}" ];
+  then
+    echo "Package: ${package} version: ${version}"
+    sleep 5
+    apt-get install  ${package}${version} -y
+  elif [ -z "${version}" ];
+  then
+    echo "Package: ${package} version: not specified"
+    sleep 5
+    apt-get install ${package} -y
+  fi
+  sleep 5
+}
 
 # Check that the system is supported
 printf "Check that the system is supported\n"
@@ -34,8 +50,6 @@ else
   isNotSupported
 fi
 
-filename='./config/package.txt'
-
 # check config file exist
 if [ ! -f "$filename" ]; 
 then 
@@ -48,17 +62,9 @@ n=1
 while read line; do
 
   fields=($(printf "%s" "$line"|cut -d'=' --output-delimiter=' ' -f1-))
-  if [ ! -z "${fields[0]}" ] && [ ! -z "${fields[1]}" ];
-  then 
-    echo "Package No. $n package: ${fields[0]} version: ${fields[1]}"
-    sleep 5
-    apt-get install  ${fields[0]}${fields[1]} -y
-  elif [ -z "${fields[1]}" ];
-  then
-    echo "Package No. $n package: ${fields[0]} Empty version"
-    sleep 5
-    apt-get install ${fields} -y
-  fi
+  package="${fields[0]}"
+  version="${fields[1]}"
+  installUbuntuPackage $package $version
 
   n=$((n+1))
 done < $filename
