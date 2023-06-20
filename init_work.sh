@@ -1,19 +1,13 @@
 #!/bin/bash
 
+source ./config/oslib/init_ubuntu.sh
+
 now=$(date '+%Y/%m/%d %H:%M:%S')
 filename='./config/package.txt'
 
 isNotSupported() {
   echo "System is not supported"
   exit 1;
-}
-
-updateUbuntu() {
-  printf "Update && Upgrade\n"
-  apt-get update
-  apt-get upgrade -y
-  apt-get install software-properties-common -y
-  add-apt-repository ppa:deadsnakes/ppa
 }
 
 installUbuntuPackage() {
@@ -38,7 +32,7 @@ if [ "$uname_str" == "Linux" ];
 then
   linux_distribution=$(grep -E '^(NAME)=' /etc/os-release)
   if [ "$linux_distribution" == 'NAME="Ubuntu"' ];
-  then 
+  then
     updateUbuntu
   else
     isNotSupported
