@@ -10,20 +10,6 @@ isNotSupported() {
   exit 1;
 }
 
-installUbuntuPackage() {
-  local package="$1"
-  local version="$2"
-  if [ ! -z "${package}" ] && [ ! -z "${version}" ];
-  then
-    echo "Package: ${package} version: ${version}"
-    apt-get install  ${package}${version} -y
-  elif [ -z "${version}" ];
-  then
-    echo "Package: ${package} version: not specified"
-    apt-get install ${package} -y
-  fi
-}
-
 # Check that the system is supported
 printf "Check that the system is supported\n"
 uname_str=$(uname)
