@@ -22,15 +22,12 @@ installUbuntuPackage() {
   if [ ! -z "${package}" ] && [ ! -z "${version}" ];
   then
     echo "Package: ${package} version: ${version}"
-    sleep 5
     apt-get install  ${package}${version} -y
   elif [ -z "${version}" ];
   then
     echo "Package: ${package} version: not specified"
-    sleep 5
     apt-get install ${package} -y
   fi
-  sleep 5
 }
 
 # Check that the system is supported
@@ -68,41 +65,3 @@ while read line; do
 
   n=$((n+1))
 done < $filename
-
-
-# if ! git --version &> /dev/null
-# then
-#    printf "Install git\n"
-#    apt-get install git -y
-# fi
-
-# if ! htop -v &> /dev/null
-# then 
-#    printf "Install htop"
-#    apt-get install htop -y
-# fi
-
-# if ! zsh --version &> /dev/null
-# then 
-#    printf "Install zsh\n"
-#    apt-get install zsh -y
-    
-#    printf "default shell zsh\n"
-#    chsh -s $(which zsh)
-# fi
-
-# if ! curl -V &> /dev/null
-# then
-#    printf "Install curl\n"
-#    apt-get install curl -y
-# fi
-
-# if [ ! -d "/root/.oh-my-zsh" ]
-# then
-#    printf "install oh-my-zsh"  
-#    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-# fi
-
-
-
-# apt install python3-neovim
