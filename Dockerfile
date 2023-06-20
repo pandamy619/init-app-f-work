@@ -14,6 +14,7 @@ WORKDIR /app
 RUN mkdir config
 
 COPY ./init_work.sh ./config/init_work.sh
+COPY ./hello.sh ./config/hello.sh
 COPY ./oslib ./config/oslib
 COPY ./package.txt ./config/package.txt
 

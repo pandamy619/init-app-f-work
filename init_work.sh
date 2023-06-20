@@ -1,6 +1,9 @@
 #!/bin/bash
 
+source ./config/hello.sh
 source ./config/oslib/init_ubuntu.sh
+
+printHello
 
 now=$(date '+%Y/%m/%d %H:%M:%S')
 filename='./config/package.txt'
