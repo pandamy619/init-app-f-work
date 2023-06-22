@@ -19,7 +19,6 @@ installPackage() {
   local version="$3"
   if [ "$linux_distribution" == 'NAME="Ubuntu"' ];
   then
-    updateUbuntu
     installUbuntuPackage $package $version 
   fi
 }
