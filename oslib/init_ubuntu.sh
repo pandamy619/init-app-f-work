@@ -11,6 +11,7 @@ updateUbuntu() {
 installUbuntuPackage() {
   local package="$1"
   local version="$2"
+
   if [ ! -z "${package}" ] && [ ! -z "${version}" ];
   then
     echo "Package: ${package} version: ${version}"
@@ -21,4 +22,3 @@ installUbuntuPackage() {
     apt-get install ${package} -y
   fi
 }
-

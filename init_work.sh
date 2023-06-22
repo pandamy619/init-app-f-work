@@ -13,6 +13,17 @@ isNotSupported() {
   exit 1;
 }
 
+installPackage() {
+  local linux_distribution="$1"
+  local package="$2"
+  local version="$3"
+  if [ "$linux_distribution" == 'NAME="Ubuntu"' ];
+  then
+    updateUbuntu
+    installUbuntuPackage $package $version 
+  fi
+}
+
 # Check that the system is supported
 printf "Check that the system is supported\n"
 uname_str=$(uname)
@@ -44,7 +55,8 @@ while read line; do
   fields=($(printf "%s" "$line"|cut -d'=' --output-delimiter=' ' -f1-))
   package="${fields[0]}"
   version="${fields[1]}"
-  installUbuntuPackage $package $version
+
+  installPackage $linux_distribution $package $version
 
   n=$((n+1))
 done < $filename
