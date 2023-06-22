@@ -3,7 +3,7 @@
 source ./config/hello.sh
 source ./config/oslib/init_ubuntu.sh
 
-printHello
+# printHello
 
 now=$(date '+%Y/%m/%d %H:%M:%S')
 filename='./config/package.txt'
@@ -26,13 +26,14 @@ installPackage() {
 # Check that the system is supported
 printf "Check that the system is supported\n"
 uname_str=$(uname)
-linux_distribution='unknown'
+linux_distribution="unknown"
 if [ "$uname_str" == "Linux" ];
 then
   linux_distribution=$(grep -E '^(NAME)=' /etc/os-release)
   if [ "$linux_distribution" == 'NAME="Ubuntu"' ];
   then
     updateUbuntu
+    sleep 1
   else
     isNotSupported
   fi
@@ -48,14 +49,40 @@ then
 fi
 
 # installing dependencies
+declare -A std_package
+# declare -A other_package
+line_pkg="unknown"
 n=1
 while read line; do
+  
+  if [ "${line}" == '[STANDART-PKG]' ] || [ "${line}" == '[OTHER-PKG]' ];
+  then
+    line_pkg="${line}"
+    n=$((n+1))
+    continue
+  fi
+  
+  if [ "${line_pkg}" == '[STANDART-PKG]' ];
+  then
+    fields=($(printf "%s" "$line"|cut -d'=' --output-delimiter=' ' -f1-))
+    package="${fields[0]}"
+    version="${fields[1]}"
 
-  fields=($(printf "%s" "$line"|cut -d'=' --output-delimiter=' ' -f1-))
-  package="${fields[0]}"
-  version="${fields[1]}"
-
-  installPackage $linux_distribution $package $version
-
+    # installPackage $linux_distribution $package $version
+    if [ -z "${version}" ];
+    then 
+      version="None"
+    fi
+    std_package["${fields[0]}"]="${fields[1]}"
+  fi
+  
   n=$((n+1))
 done < $filename
+
+for key in "${!std_package[@]}"; do
+  echo "$key ${std_package[$key]}"
+  sleep 2
+done
+
+
+

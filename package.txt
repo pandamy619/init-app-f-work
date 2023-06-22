@@ -1,7 +1,10 @@
+[STANDART-PKG]
+curl
 python=3.10
 python3-pip
 python3-neovim
 git
 htop
 zsh
-curl
+
+[OTHER-PKG]
